@@ -1,11 +1,12 @@
-package com.example.jobsappliedfor;
+package com.example.jobsappliedfor.Adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.example.jobsappliedfor.R;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsViewHolder> {
 
     ArrayList<String> items;
 
-    JobsListAdapter(ArrayList<String> stuff){
+    public JobsListAdapter(ArrayList<String> stuff){
         items= stuff;
     }
 

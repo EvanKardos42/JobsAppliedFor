@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.jobsappliedfor.Adapters.JobsListAdapter;
+
 import java.util.ArrayList;
 
 public class FragmentMain extends Fragment {
