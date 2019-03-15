@@ -18,10 +18,10 @@ public class Job {
     @ColumnInfo(name ="applied",typeAffinity = ColumnInfo.INTEGER)
     private Boolean Applied;
 
-    public Job(String companyName, Date day, Boolean applied) {
+    public Job(String companyName) {
         CompanyName = companyName;
-        this.day = day;
-        Applied = applied;
+        this.day = new Date();
+        Applied = false;
     }
 
     public String getCompanyName() {

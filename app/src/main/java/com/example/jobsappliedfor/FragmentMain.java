@@ -17,7 +17,7 @@ import com.example.jobsappliedfor.Adapters.JobsListAdapter;
 
 import java.util.ArrayList;
 
-public class FragmentMain extends Fragment {
+public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
     RecyclerView recyclerView;
     ArrayList<String> jobs;
@@ -33,21 +33,37 @@ public class FragmentMain extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        //intialize the button
-        v.findViewById(R.id.button_enter).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(mainTag, "enter button clicked");
-                toast = Toast.makeText(FragmentMain.this.getContext(), "Job Entered", Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
-
-        recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext(),
-                                                                LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new JobsListAdapter(jobs));
+        init(v);
 
         return v;
+    }
+
+    private  void init(View v){
+        //initialise the button
+        v.findViewById(R.id.button_enter).setOnClickListener(this);
+
+        //initialise the editText
+        editText =v.findViewById(R.id.editText_name);
+
+        //initialise the recyclerview
+        recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(this.getContext(),
+                                                                LinearLayoutManager.VERTICAL,
+                                                                        false);
+        recyclerView.setLayoutManager(lm);
+        recyclerView.setAdapter(new JobsListAdapter(jobs));
+    }
+
+    private Job createJob(String companyName){
+        Job job = new Job(companyName);
+        return job;
+    }
+
+    @Override
+    public void onClick(View v) {
+        createJob(editText.getText().toString());
+        Log.d(mainTag, "created Job");
+        toast = Toast.makeText(FragmentMain.this.getContext(), "Job Entered", Toast.LENGTH_LONG);
+        toast.show();
     }
 }
