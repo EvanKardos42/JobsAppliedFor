@@ -14,15 +14,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jobsappliedfor.Adapters.JobsListAdapter;
+import com.example.jobsappliedfor.Database.JobDatabases;
+import com.example.jobsappliedfor.Database.JobsDAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
     RecyclerView recyclerView;
     ArrayList<String> jobs;
     EditText editText;
-
     Toast toast;
 
     @Nullable
@@ -33,12 +35,12 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        init(v);
+        initViews(v);
 
         return v;
     }
 
-    private  void init(View v){
+    private  void initViews(View v){
         //initialise the button
         v.findViewById(R.id.button_enter).setOnClickListener(this);
 
@@ -55,13 +57,13 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
     }
 
     private Job createJob(String companyName){
-        Job job = new Job(companyName);
-        return job;
+        return new Job(companyName,false,new Date());
     }
 
     @Override
     public void onClick(View v) {
-        createJob(editText.getText().toString());
+        Job j = createJob(editText.getText().toString());
+
         Log.d(mainTag, "created Job");
         toast = Toast.makeText(FragmentMain.this.getContext(), "Job Entered", Toast.LENGTH_LONG);
         toast.show();

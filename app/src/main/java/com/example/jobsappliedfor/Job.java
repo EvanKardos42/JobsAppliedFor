@@ -1,50 +1,55 @@
 package com.example.jobsappliedfor;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 
-@Entity(tableName = "Job")
+@Entity(tableName = "Jobs")
 public class Job {
     @PrimaryKey(autoGenerate = true)
-    private int id;
-
-    @ColumnInfo(name ="Company_Name", typeAffinity = ColumnInfo.TEXT)
-    private String CompanyName;
-    @ColumnInfo(name ="day",typeAffinity = ColumnInfo.TEXT)
+    public int id;
+    private String companyName;
+    private Boolean applied;
+    @TypeConverters(Converters.class)
     private Date day;
-    @ColumnInfo(name ="applied",typeAffinity = ColumnInfo.INTEGER)
-    private Boolean Applied;
 
-    public Job(String companyName) {
-        CompanyName = companyName;
-        this.day = new Date();
-        Applied = false;
+    public Job(String companyName, Boolean applied, Date day) {
+        this.companyName = companyName;
+        this.applied = applied;
+        this.day = day;
     }
 
     public String getCompanyName() {
-        return CompanyName;
+        return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        CompanyName = companyName;
+    public Boolean getApplied() {
+        return applied;
     }
 
     public Date getDay() {
         return day;
     }
 
-    public void setDay(Date day) {
-        this.day = day;
+    public static class Converters {
+        @TypeConverter
+        public Date fromTimestamp(Long value) {
+            return value == null ? null : new Date(value);
+        }
+
+
+        @TypeConverter
+        public Long dateToTimestamp(Date date) {
+            if (date == null) {
+                return null;
+            } else {
+                return date.getTime();
+            }
+        }
     }
 
-    public Boolean getApplied() {
-        return Applied;
-    }
 
-    public void setApplied(Boolean applied) {
-        Applied = applied;
-    }
 }
