@@ -1,5 +1,8 @@
 package com.example.jobsappliedfor;
 
+import android.annotation.SuppressLint;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,19 +17,23 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jobsappliedfor.Adapters.JobsListAdapter;
-import com.example.jobsappliedfor.Database.JobDatabases;
-import com.example.jobsappliedfor.Database.JobsDAO;
+import com.example.jobsappliedfor.Database.Job;
+
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
-    RecyclerView recyclerView;
-    ArrayList<String> jobs;
+    private RecyclerView recyclerView;
+    private JobsListAdapter jobsListAdapter;
+    ArrayList<Job> jobs;
     EditText editText;
     Toast toast;
+    private JobsViewModel viewModel;
 
+    @SuppressLint("ShowToast")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,7 +43,15 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         initViews(v);
-
+        viewModel = ViewModelProviders.of(this).get(JobsViewModel.class);
+        viewModel.getAllJobs().observe(this, new Observer<List<Job>>() {
+            @Override
+            public void onChanged(@Nullable List<Job> jobs) {
+                jobsListAdapter.setJob(jobs);
+            }
+        });
+        //intiated toast
+        toast = Toast.makeText(FragmentMain.this.getContext(), "", Toast.LENGTH_LONG);
         return v;
     }
 
@@ -48,12 +63,14 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         editText =v.findViewById(R.id.editText_name);
 
         //initialise the recyclerview
+        jobsListAdapter=new JobsListAdapter(jobs);
         recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this.getContext(),
                                                                 LinearLayoutManager.VERTICAL,
                                                                         false);
         recyclerView.setLayoutManager(lm);
-        recyclerView.setAdapter(new JobsListAdapter(jobs));
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(jobsListAdapter);
     }
 
     private Job createJob(String companyName){
@@ -62,10 +79,14 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Job j = createJob(editText.getText().toString());
-
-        Log.d(mainTag, "created Job");
-        toast = Toast.makeText(FragmentMain.this.getContext(), "Job Entered", Toast.LENGTH_LONG);
-        toast.show();
+        String companyName=editText.getText().toString();
+        if(companyName.isEmpty() ||companyName.contains(" ")) {
+            Job j = createJob(companyName);
+            viewModel.insert(j);
+            Log.d(mainTag, "created Job");
+            toast.setText("entered job");
+            toast.show();
+            editText.setText("");
+        }
     }
 }

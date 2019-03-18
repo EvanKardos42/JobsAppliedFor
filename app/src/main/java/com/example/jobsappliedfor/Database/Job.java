@@ -1,4 +1,4 @@
-package com.example.jobsappliedfor;
+package com.example.jobsappliedfor.Database;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
@@ -7,10 +7,10 @@ import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 
-@Entity(tableName = "Jobs")
+@Entity(tableName = "Jobs_table")
 public class Job {
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    private int id;
     private String companyName;
     private Boolean applied;
     @TypeConverters(Converters.class)
@@ -20,6 +20,14 @@ public class Job {
         this.companyName = companyName;
         this.applied = applied;
         this.day = day;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getCompanyName() {

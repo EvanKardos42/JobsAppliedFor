@@ -6,8 +6,6 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-import com.example.jobsappliedfor.Job;
-
 @Database(entities = {Job.class},version = 1,exportSchema = false)
 @TypeConverters({Job.Converters.class})
 public abstract class JobDatabases extends RoomDatabase {
@@ -20,7 +18,9 @@ public abstract class JobDatabases extends RoomDatabase {
             synchronized (JobDatabases.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            JobDatabases.class,"Job_database").build();
+                            JobDatabases.class,"Job_database")
+                            .fallbackToDestructiveMigration()
+                            .build();
                 }
             }
         }

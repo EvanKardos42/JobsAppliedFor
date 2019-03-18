@@ -5,16 +5,18 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-
-import com.example.jobsappliedfor.Job;
+import android.arch.persistence.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface JobsDAO {
 
-    @Query("SELECT * FROM jobs")
+    @Query("SELECT * FROM jobs_table ORDER BY companyName")
     LiveData<List<Job>> getAll();
+
+   @Update
+    void changeValue(Job job);
 
     @Insert
     void insert(Job job);
