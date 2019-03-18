@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+
 import com.example.jobsappliedfor.Adapters.JobsListAdapter;
 import com.example.jobsappliedfor.Database.Job;
 
