@@ -47,4 +47,8 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsViewHolder> {
         items = j;
         notifyDataSetChanged();
     }
+
+    public Job getJobAt(int position){
+        return items.get(position);
+    }
 }

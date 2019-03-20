@@ -52,7 +52,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
             }
         });
         //intiated toast
-        toast = Toast.makeText(FragmentMain.this.getContext(), "", Toast.LENGTH_LONG);
+        toast = Toast.makeText(FragmentMain.this.getContext(), "", Toast.LENGTH_SHORT);
         return v;
     }
 
@@ -83,9 +83,10 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-
+                viewModel.delete(jobsListAdapter.getJobAt(viewHolder.getAdapterPosition()));
+                showToast("deleted Job");
             }
-        });
+        }).attachToRecyclerView(recyclerView);
     }
 
     private Job createJob(String companyName){
@@ -101,10 +102,14 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
             Job j = createJob(companyName);
             viewModel.insert(j);
             Log.d(mainTag, "created Job");
-            toast.setText(companyName);
-            toast.show();
+           showToast("created Job");
             editText.setText("");
         }
         Log.d(mainTag, "Button Clicked");
+    }
+
+    public void showToast(String s){
+        toast.setText(s);
+        toast.show();
     }
 }
