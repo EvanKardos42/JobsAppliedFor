@@ -9,46 +9,49 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/RecuclerView_display_jobs"
         android:layout_width="395dp"
-        android:layout_height="510dp"
+        android:layout_height="608dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="395dp"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="wrap_content"
         android:layout_height="63dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/editText_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:autofillHints="@string/name"
-            android:ems="10"
-            android:inputType="textPersonName"
-            tools:ignore="LabelFor" />
+        <LinearLayout
+            android:layout_width="395dp"
+            android:layout_height="63dp"
+            tools:ignore="UselessParent">
 
-        <Button
-            android:id="@+id/button_enter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/enter" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/editText_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:autofillHints="@string/name"
+                android:ems="10"
+                android:inputType="textPersonName"
+                tools:ignore="LabelFor" />
 
+            <Button
+                android:id="@+id/button_enter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/enter" />
+        </LinearLayout>
 
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>
