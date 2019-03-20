@@ -9,13 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
-
 
 import com.example.jobsappliedfor.Adapters.JobsListAdapter;
 import com.example.jobsappliedfor.Database.Job;
@@ -72,6 +72,20 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(lm);
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(jobsListAdapter);
+
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+
+            @Override
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+
+            }
+        });
     }
 
     private Job createJob(String companyName){
@@ -80,14 +94,17 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        String companyName=editText.getText().toString();
-        if(companyName.isEmpty() ||companyName.contains(" ")) {
+
+        String companyName = editText.getText().toString();
+
+        if(!companyName.isEmpty()) {
             Job j = createJob(companyName);
             viewModel.insert(j);
             Log.d(mainTag, "created Job");
-            toast.setText("entered job");
+            toast.setText(companyName);
             toast.show();
             editText.setText("");
         }
+        Log.d(mainTag, "Button Clicked");
     }
 }
