@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.example.jobsappliedfor.R;
 
 
-public class JobsViewHolder extends RecyclerView.ViewHolder {
+class JobsViewHolder extends RecyclerView.ViewHolder {
 
     private TextView textView;
     private CheckBox checkBox;
@@ -20,11 +20,15 @@ public class JobsViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public CheckBox getCheckBox() {
+     CheckBox getCheckBox() {
         return checkBox;
     }
 
-    public TextView getTextView() {
+     TextView getTextView() {
         return textView;
+    }
+
+    void setCheckBoxListener(View.OnClickListener listener) {
+        checkBox.setOnClickListener(listener);
     }
 }

@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -29,10 +30,11 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
     private RecyclerView recyclerView;
     private JobsListAdapter jobsListAdapter;
+    private JobsViewModel viewModel;
     ArrayList<Job> jobs;
     EditText editText;
     Toast toast;
-    private JobsViewModel viewModel;
+
 
     @SuppressLint("ShowToast")
     @Nullable
@@ -65,6 +67,16 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
         //initialise the recyclerview
         jobsListAdapter=new JobsListAdapter(jobs);
+        jobsListAdapter.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb= (CheckBox)v;
+                if(cb.isChecked()){
+                    Log.d(mainTag, "checked");
+                }
+            }
+        });
+
         recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this.getContext(),
                                                                 LinearLayoutManager.VERTICAL,
@@ -73,6 +85,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         recyclerView.setHasFixedSize(true);
         recyclerView.setAdapter(jobsListAdapter);
 
+        // helps with animations of swiping to delete a job
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
 
@@ -84,9 +97,10 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 viewModel.delete(jobsListAdapter.getJobAt(viewHolder.getAdapterPosition()));
-                showToast("deleted Job");
+                showToast("Deleted Job");
             }
         }).attachToRecyclerView(recyclerView);
+
     }
 
     private Job createJob(String companyName){

@@ -15,6 +15,7 @@ import java.util.List;
 public class JobsListAdapter extends RecyclerView.Adapter<JobsViewHolder> {
 
     private List<Job> items = new ArrayList<>();
+    private View.OnClickListener listener;
 
     public JobsListAdapter(ArrayList<Job> stuff){
         if(stuff != null)
@@ -32,10 +33,11 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JobsViewHolder jobsViewHolder, int i) {
-            Job j=items.get(i);
+    public void onBindViewHolder(@NonNull final JobsViewHolder jobsViewHolder, int i) {
+            final Job j = items.get(i);
             jobsViewHolder.getTextView().setText(j.getCompanyName());
             jobsViewHolder.getCheckBox().setChecked(j.getApplied());
+            jobsViewHolder.setCheckBoxListener(listener);
     }
 
     @Override
@@ -50,5 +52,9 @@ public class JobsListAdapter extends RecyclerView.Adapter<JobsViewHolder> {
 
     public Job getJobAt(int position){
         return items.get(position);
+    }
+
+    public void setListener(View.OnClickListener listener) {
+        this.listener = listener;
     }
 }

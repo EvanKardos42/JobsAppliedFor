@@ -20,6 +20,11 @@ public class JobsViewModel extends AndroidViewModel {
         jobs=repository.getAll();
 
     }
+
+    public void update(Job j){
+        repository.update(j);
+    }
+
     public void insert(Job j){
         repository.insert(j);
     }

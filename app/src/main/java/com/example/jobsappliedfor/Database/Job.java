@@ -22,11 +22,11 @@ public class Job {
         this.day = day;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
-    public int getId() {
+     int getId() {
         return id;
     }
 
@@ -38,11 +38,15 @@ public class Job {
         return applied;
     }
 
+    public void setApplied(Boolean applied) {
+        this.applied = applied;
+    }
+
     public Date getDay() {
         return day;
     }
 
-    public static class Converters {
+    static class Converters {
         @TypeConverter
         public Date fromTimestamp(Long value) {
             return value == null ? null : new Date(value);
