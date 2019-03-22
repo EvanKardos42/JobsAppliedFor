@@ -5,18 +5,19 @@ import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.example.jobsappliedfor.Database.Company;
-import com.example.jobsappliedfor.Database.JobDatabases;
-import com.example.jobsappliedfor.Database.JobsDAO;
+import com.example.jobsappliedfor.Database.CompanyDAO;
+import com.example.jobsappliedfor.Database.CompanyDatabases;
+
 import java.util.List;
 
 public class JobRepository {
 
     private LiveData<List<Company>> currentJobs;
-    private JobsDAO jbd;
+    private CompanyDAO jbd;
 
     public JobRepository(Application app) {
-        this.jbd = JobDatabases.getDatabase(app).getJobDao();
-        currentJobs = jbd.getAll();
+        this.jbd = CompanyDatabases.getDatabase(app).getJobDao();
+        currentJobs = jbd.getAllByName();
     }
 
     public LiveData<List<Company>> getAll( ){
@@ -37,45 +38,45 @@ public class JobRepository {
 
     private static class InsertAsyncTask extends AsyncTask<Company,Void,Void>{
 
-        private JobsDAO jobsDAO;
+        private CompanyDAO companyDAO;
 
-        public InsertAsyncTask(JobsDAO jobs) {
-            this.jobsDAO = jobs;
+        public InsertAsyncTask(CompanyDAO jobs) {
+            this.companyDAO = jobs;
         }
 
         @Override
         protected Void doInBackground(Company... companies) {
-            jobsDAO.insert(companies[0]);
+            companyDAO.insert(companies[0]);
             return null;
         }
     }
 
     private static class DeleteAsyncTask extends AsyncTask<Company,Void,Void>{
 
-        private JobsDAO jobsDAO;
+        private CompanyDAO companyDAO;
 
-        public DeleteAsyncTask(JobsDAO jobs) {
-            this.jobsDAO = jobs;
+        public DeleteAsyncTask(CompanyDAO jobs) {
+            this.companyDAO = jobs;
         }
 
         @Override
         protected Void doInBackground(Company... companies) {
-            jobsDAO.delete(companies[0]);
+            companyDAO.delete(companies[0]);
             return null;
         }
     }
 
     private static class UpdateAsyncTask extends AsyncTask<Company,Void,Void>{
 
-        private JobsDAO jobsDAO;
+        private CompanyDAO companyDAO;
 
-        public UpdateAsyncTask(JobsDAO jobs) {
-            this.jobsDAO = jobs;
+        public UpdateAsyncTask(CompanyDAO jobs) {
+            this.companyDAO = jobs;
         }
 
         @Override
         protected Void doInBackground(Company... companies) {
-            jobsDAO.changeValue(companies[0]);
+            companyDAO.changeValue(companies[0]);
             return null;
         }
     }

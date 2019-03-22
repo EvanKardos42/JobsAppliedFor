@@ -1,7 +1,5 @@
 package com.example.jobsappliedfor;
 
-import com.example.jobsappliedfor.Database.JobDatabases;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;

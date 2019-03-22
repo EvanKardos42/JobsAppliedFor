@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.jobsappliedfor.Adapters.JobsListAdapter;
+import com.example.jobsappliedfor.Adapters.CompanyListAdapter;
 import com.example.jobsappliedfor.Database.Company;
 import com.example.jobsappliedfor.JobsViewModel;
 import com.example.jobsappliedfor.R;
@@ -27,7 +27,7 @@ import java.util.List;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
-    private JobsListAdapter jobsListAdapter;
+    private CompanyListAdapter jobsListAdapter;
     private JobsViewModel viewModel;
     ArrayList<Company> companies;
     EditText editText;
@@ -63,7 +63,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         editText = v.findViewById(R.id.editText_name);
 
         //initialise the recyclerview
-        jobsListAdapter = new JobsListAdapter(viewModel);
+        jobsListAdapter = new CompanyListAdapter(viewModel);
         RecyclerView recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this.getContext(),
                                                                 LinearLayoutManager.VERTICAL,
@@ -99,7 +99,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
             Company j = createJob(companyName);
             viewModel.insert(j);
             Log.d(mainTag, "created Company");
-            showToast("created Company");
+            showToast("Created Company");
             editText.setText("");
         }
         Log.d(mainTag, "Button Clicked");

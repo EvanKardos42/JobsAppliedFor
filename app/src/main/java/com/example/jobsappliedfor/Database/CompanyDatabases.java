@@ -8,17 +8,17 @@ import android.content.Context;
 
 @Database(entities = {Company.class},version = 2,exportSchema = false)
 @TypeConverters({Company.Converters.class})
-public abstract class JobDatabases extends RoomDatabase {
-    public abstract JobsDAO getJobDao();
+public abstract class CompanyDatabases extends RoomDatabase {
+    public abstract CompanyDAO getJobDao();
 
-    private static volatile JobDatabases INSTANCE;
+    private static volatile CompanyDatabases INSTANCE;
 
-    public static JobDatabases getDatabase(final Context context) {
+    public static CompanyDatabases getDatabase(final Context context) {
         if (INSTANCE == null) {
-            synchronized (JobDatabases.class) {
+            synchronized (CompanyDatabases.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                            JobDatabases.class,"Job_database")
+                            CompanyDatabases.class,"Job_database")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

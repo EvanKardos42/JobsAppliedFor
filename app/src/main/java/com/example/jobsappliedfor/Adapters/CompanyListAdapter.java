@@ -3,7 +3,6 @@ package com.example.jobsappliedfor.Adapters;
 import android.support.annotation.NonNull;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,11 @@ import com.example.jobsappliedfor.Database.Company;
 import com.example.jobsappliedfor.JobsViewModel;
 import com.example.jobsappliedfor.R;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class JobsListAdapter extends ListAdapter<Company,JobsViewHolder> {
+public class CompanyListAdapter extends ListAdapter<Company, CompanyViewHolder> {
 
     private  JobsViewModel viewModel;
 
-    public JobsListAdapter(JobsViewModel viewModel) {
+    public CompanyListAdapter(JobsViewModel viewModel) {
         super(DIFF_CALLBACK);
         this.viewModel = viewModel;
     }
@@ -41,18 +37,18 @@ public class JobsListAdapter extends ListAdapter<Company,JobsViewHolder> {
 
     @NonNull
     @Override
-    public JobsViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public CompanyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.job_item_row,viewGroup,false);
-        return new JobsViewHolder(v);
+        return new CompanyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull JobsViewHolder jobsViewHolder, int i) {
+    public void onBindViewHolder(@NonNull CompanyViewHolder companyViewHolder, int i) {
             final Company j = getItem(i);
-            jobsViewHolder.getTextView().setText(j.getCompanyName());
-            jobsViewHolder.getCheckBox().setChecked(j.getApplied());
-            jobsViewHolder.setCheckBoxListener(new View.OnClickListener() {
+            companyViewHolder.getTextView().setText(j.getCompanyName());
+            companyViewHolder.getCheckBox().setChecked(j.getApplied());
+            companyViewHolder.setCheckBoxListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v instanceof CheckBox){

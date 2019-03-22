@@ -10,10 +10,16 @@ import android.arch.persistence.room.Update;
 import java.util.List;
 
 @Dao
-public interface JobsDAO {
+public interface CompanyDAO {
+
+    @Query("SELECT * FROM Company_table")
+    LiveData<List<Company>> getAll();
 
     @Query("SELECT * FROM Company_table ORDER BY companyName")
-    LiveData<List<Company>> getAll();
+    LiveData<List<Company>> getAllByName();
+
+    @Query("SELECT * FROM Company_table WHERE applied = 1")
+    LiveData<List<Company>> getAllApplied();
 
    @Update
     void changeValue(Company company);

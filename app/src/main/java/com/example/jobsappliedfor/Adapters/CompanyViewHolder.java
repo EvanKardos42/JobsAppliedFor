@@ -8,11 +8,11 @@ import android.widget.TextView;
 import com.example.jobsappliedfor.R;
 
 
-class JobsViewHolder extends RecyclerView.ViewHolder {
+class CompanyViewHolder extends RecyclerView.ViewHolder {
     private TextView textView;
     private CheckBox checkBox;
 
-    JobsViewHolder(View itemView) {
+    CompanyViewHolder(View itemView) {
         super(itemView);
         textView = itemView.findViewById(R.id.textView_company_name);
         checkBox = itemView.findViewById(R.id.checkBox_applied);
