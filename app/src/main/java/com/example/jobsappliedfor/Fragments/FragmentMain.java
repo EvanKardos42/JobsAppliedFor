@@ -1,6 +1,5 @@
-package com.example.jobsappliedfor;
+package com.example.jobsappliedfor.Fragments;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -14,13 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.jobsappliedfor.Adapters.JobsListAdapter;
-import com.example.jobsappliedfor.Database.Job;
-
+import com.example.jobsappliedfor.Database.Company;
+import com.example.jobsappliedfor.JobsViewModel;
+import com.example.jobsappliedfor.R;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,15 +27,12 @@ import java.util.List;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
-    private RecyclerView recyclerView;
     private JobsListAdapter jobsListAdapter;
     private JobsViewModel viewModel;
-    ArrayList<Job> jobs;
+    ArrayList<Company> companies;
     EditText editText;
-    Toast toast;
 
 
-    @SuppressLint("ShowToast")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -45,39 +41,30 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-        initViews(v);
+
         viewModel = ViewModelProviders.of(this).get(JobsViewModel.class);
-        viewModel.getAllJobs().observe(this, new Observer<List<Job>>() {
+        viewModel.getAllJobs().observe(this, new Observer<List<Company>>() {
             @Override
-            public void onChanged(@Nullable List<Job> jobs) {
-                jobsListAdapter.setJob(jobs);
+            public void onChanged(@Nullable List<Company> companies) {
+                jobsListAdapter.submitList(companies);
             }
         });
+        initViews(v);
         //intiated toast
-        toast = Toast.makeText(FragmentMain.this.getContext(), "", Toast.LENGTH_SHORT);
         return v;
     }
 
+    // imitates the all the views to the fragment
     private  void initViews(View v){
         //initialise the button
         v.findViewById(R.id.button_enter).setOnClickListener(this);
 
         //initialise the editText
-        editText =v.findViewById(R.id.editText_name);
+        editText = v.findViewById(R.id.editText_name);
 
         //initialise the recyclerview
-        jobsListAdapter=new JobsListAdapter(jobs);
-        jobsListAdapter.setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CheckBox cb= (CheckBox)v;
-                if(cb.isChecked()){
-                    Log.d(mainTag, "checked");
-                }
-            }
-        });
-
-        recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
+        jobsListAdapter = new JobsListAdapter(viewModel);
+        RecyclerView recyclerView = v.findViewById(R.id.RecuclerView_display_jobs);
         RecyclerView.LayoutManager lm = new LinearLayoutManager(this.getContext(),
                                                                 LinearLayoutManager.VERTICAL,
                                                                         false);
@@ -97,14 +84,10 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 viewModel.delete(jobsListAdapter.getJobAt(viewHolder.getAdapterPosition()));
-                showToast("Deleted Job");
+                showToast("Deleted Company");
             }
         }).attachToRecyclerView(recyclerView);
 
-    }
-
-    private Job createJob(String companyName){
-        return new Job(companyName,false,new Date());
     }
 
     @Override
@@ -113,17 +96,28 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         String companyName = editText.getText().toString();
 
         if(!companyName.isEmpty()) {
-            Job j = createJob(companyName);
+            Company j = createJob(companyName);
             viewModel.insert(j);
-            Log.d(mainTag, "created Job");
-           showToast("created Job");
+            Log.d(mainTag, "created Company");
+            showToast("created Company");
             editText.setText("");
         }
         Log.d(mainTag, "Button Clicked");
     }
 
+    /*
+    function that takes in a string
+    * and shows uses the toast to display the
+    * string
+    */
     public void showToast(String s){
-        toast.setText(s);
-        toast.show();
+         Toast.makeText(FragmentMain.this.getContext(), s, Toast.LENGTH_SHORT).show();
+    }
+
+    /*
+    creates a new job object with the given string
+     */
+    private Company createJob(String companyName){
+        return new Company(companyName,false,new Date());
     }
 }

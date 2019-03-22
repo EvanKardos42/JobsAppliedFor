@@ -4,14 +4,14 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
-import com.example.jobsappliedfor.Database.Job;
+import com.example.jobsappliedfor.Database.Company;
 import com.example.jobsappliedfor.Database.JobDatabases;
 import com.example.jobsappliedfor.Database.JobsDAO;
 import java.util.List;
 
 public class JobRepository {
 
-    private LiveData<List<Job>> currentJobs;
+    private LiveData<List<Company>> currentJobs;
     private JobsDAO jbd;
 
     public JobRepository(Application app) {
@@ -19,23 +19,23 @@ public class JobRepository {
         currentJobs = jbd.getAll();
     }
 
-    public LiveData<List<Job>> getAll( ){
+    public LiveData<List<Company>> getAll( ){
         return currentJobs;
     }
 
-    public void insert(Job job){
-        new InsertAsyncTask(jbd).execute(job);
+    public void insert(Company company){
+        new InsertAsyncTask(jbd).execute(company);
     }
 
-    public void update(Job job){
-        new UpdateAsyncTask(jbd).execute(job);
+    public void update(Company company){
+        new UpdateAsyncTask(jbd).execute(company);
     }
 
-    public void delete(Job job){
-        new DeleteAsyncTask(jbd).execute(job);
+    public void delete(Company company){
+        new DeleteAsyncTask(jbd).execute(company);
     }
 
-    private static class InsertAsyncTask extends AsyncTask<Job,Void,Void>{
+    private static class InsertAsyncTask extends AsyncTask<Company,Void,Void>{
 
         private JobsDAO jobsDAO;
 
@@ -44,13 +44,13 @@ public class JobRepository {
         }
 
         @Override
-        protected Void doInBackground(Job... jobs) {
-            jobsDAO.insert(jobs[0]);
+        protected Void doInBackground(Company... companies) {
+            jobsDAO.insert(companies[0]);
             return null;
         }
     }
 
-    private static class DeleteAsyncTask extends AsyncTask<Job,Void,Void>{
+    private static class DeleteAsyncTask extends AsyncTask<Company,Void,Void>{
 
         private JobsDAO jobsDAO;
 
@@ -59,13 +59,13 @@ public class JobRepository {
         }
 
         @Override
-        protected Void doInBackground(Job... jobs) {
-            jobsDAO.delete(jobs[0]);
+        protected Void doInBackground(Company... companies) {
+            jobsDAO.delete(companies[0]);
             return null;
         }
     }
 
-    private static class UpdateAsyncTask extends AsyncTask<Job,Void,Void>{
+    private static class UpdateAsyncTask extends AsyncTask<Company,Void,Void>{
 
         private JobsDAO jobsDAO;
 
@@ -74,8 +74,8 @@ public class JobRepository {
         }
 
         @Override
-        protected Void doInBackground(Job... jobs) {
-            jobsDAO.changeValue(jobs[0]);
+        protected Void doInBackground(Company... companies) {
+            jobsDAO.changeValue(companies[0]);
             return null;
         }
     }

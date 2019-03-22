@@ -7,8 +7,8 @@ import android.arch.persistence.room.TypeConverters;
 
 import java.util.Date;
 
-@Entity(tableName = "Jobs_table")
-public class Job {
+@Entity(tableName = "Company_table")
+public class Company {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String companyName;
@@ -16,7 +16,7 @@ public class Job {
     @TypeConverters(Converters.class)
     private Date day;
 
-    public Job(String companyName, Boolean applied, Date day) {
+    public Company(String companyName, Boolean applied, Date day) {
         this.companyName = companyName;
         this.applied = applied;
         this.day = day;
@@ -26,7 +26,7 @@ public class Job {
         this.id = id;
     }
 
-     int getId() {
+    public int getId() {
         return id;
     }
 

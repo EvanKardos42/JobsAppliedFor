@@ -12,15 +12,15 @@ import java.util.List;
 @Dao
 public interface JobsDAO {
 
-    @Query("SELECT * FROM jobs_table ORDER BY companyName")
-    LiveData<List<Job>> getAll();
+    @Query("SELECT * FROM Company_table ORDER BY companyName")
+    LiveData<List<Company>> getAll();
 
    @Update
-    void changeValue(Job job);
+    void changeValue(Company company);
 
     @Insert
-    void insert(Job job);
+    void insert(Company company);
 
     @Delete
-    void delete(Job job);
+    void delete(Company company);
 }

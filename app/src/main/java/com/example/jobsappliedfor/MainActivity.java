@@ -1,10 +1,11 @@
 package com.example.jobsappliedfor;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.jobsappliedfor.Fragments.FragmentMain;
 
 public class MainActivity extends AppCompatActivity {
     Fragment frag;

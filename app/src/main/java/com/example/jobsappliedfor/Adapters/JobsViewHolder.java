@@ -9,7 +9,6 @@ import com.example.jobsappliedfor.R;
 
 
 class JobsViewHolder extends RecyclerView.ViewHolder {
-
     private TextView textView;
     private CheckBox checkBox;
 
