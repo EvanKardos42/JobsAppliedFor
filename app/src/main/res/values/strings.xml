@@ -2,4 +2,7 @@
     <string name="app_name">Jobs Applied For</string>
     <string name="enter">Enter</string>
     <string name="name">Name</string>
+    <string name="first_letter">First Letter</string>
+    <string name="completed_applications">completed applications</string>
+    <string name="priority">priority</string>
 </resources>

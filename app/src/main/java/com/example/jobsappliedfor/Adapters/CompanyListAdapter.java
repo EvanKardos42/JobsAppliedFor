@@ -30,7 +30,6 @@ public class CompanyListAdapter extends ListAdapter<Company, CompanyViewHolder> 
         @Override
         public boolean areContentsTheSame(Company oldItem, Company newItem) {
             return oldItem.getCompanyName().equals(newItem.getCompanyName()) &&
-                    oldItem.getDay().equals(newItem.getDay()) &&
                     oldItem.getApplied() == newItem.getApplied();
         }
     };

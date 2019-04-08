@@ -29,7 +29,6 @@ public class JobsViewModel extends AndroidViewModel {
         repository.insert(j);
     }
 
-
     public void delete(Company j){
         repository.delete(j);
     }

@@ -6,8 +6,7 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 
-@Database(entities = {Company.class},version = 2,exportSchema = false)
-@TypeConverters({Company.Converters.class})
+@Database(entities = {Company.class},version = 3,exportSchema = false)
 public abstract class CompanyDatabases extends RoomDatabase {
     public abstract CompanyDAO getJobDao();
 

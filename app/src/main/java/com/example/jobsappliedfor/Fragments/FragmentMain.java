@@ -22,16 +22,27 @@ import com.example.jobsappliedfor.JobsViewModel;
 import com.example.jobsappliedfor.R;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
     private CompanyListAdapter jobsListAdapter;
     private JobsViewModel viewModel;
-    ArrayList<Company> companies;
+    //ArrayList<Company> companies;
     EditText editText;
 
+    private static volatile FragmentMain INSTANCE;
+
+    public static FragmentMain getINSTANCE() {
+        if (INSTANCE == null) {
+
+            if (INSTANCE == null) {
+                INSTANCE = new FragmentMain();
+            }
+
+        }
+        return INSTANCE;
+    }
 
     @Nullable
     @Override
@@ -118,6 +129,6 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
     creates a new job object with the given string
      */
     private Company createJob(String companyName){
-        return new Company(companyName,false,new Date());
+        return new Company(companyName,false);
     }
 }

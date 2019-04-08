@@ -13,13 +13,11 @@ public class Company {
     private int id;
     private String companyName;
     private Boolean applied;
-    @TypeConverters(Converters.class)
-    private Date day;
 
-    public Company(String companyName, Boolean applied, Date day) {
+
+    public Company(String companyName, Boolean applied) {
         this.companyName = companyName;
         this.applied = applied;
-        this.day = day;
     }
 
     void setId(int id) {
@@ -42,24 +40,4 @@ public class Company {
         this.applied = applied;
     }
 
-    public Date getDay() {
-        return day;
-    }
-
-    static class Converters {
-        @TypeConverter
-        public Date fromTimestamp(Long value) {
-            return value == null ? null : new Date(value);
-        }
-
-
-        @TypeConverter
-        public Long dateToTimestamp(Date date) {
-            if (date == null) {
-                return null;
-            } else {
-                return date.getTime();
-            }
-        }
-    }
 }
