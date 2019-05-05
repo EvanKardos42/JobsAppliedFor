@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import com.example.jobsappliedfor.Fragments.FragmentMain;
 
 public class MainActivity extends AppCompatActivity {
-    Fragment frag;
-    String toolbarTitle ="Company";
+    FragmentMain frag;
+    String toolbarTitle ="Companies";
     Toolbar tb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         // fragments implimentation code
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        frag = FragmentMain.getINSTANCE();
+        frag = new FragmentMain();
 
         transaction.add(R.id.content_frame,frag).commit();
 
@@ -45,10 +45,15 @@ public class MainActivity extends AppCompatActivity {
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.menu_get_all_applied:
+                frag.sortTheList(FragmentMain.Menu_Select.APPLIED);
                 break;
             case R.id.menu_sory_by_letter:
+                frag.sortTheList(FragmentMain.Menu_Select.FIRST_LETTER);
                 break;
-            
+            case R.id.menu_get_all_not_applied:
+                frag.sortTheList(FragmentMain.Menu_Select.NOT_APPLIED);
+                break;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

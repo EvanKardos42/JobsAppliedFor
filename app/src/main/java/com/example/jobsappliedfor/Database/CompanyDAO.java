@@ -18,8 +18,11 @@ public interface CompanyDAO {
     @Query("SELECT * FROM Company_table ORDER BY companyName")
     LiveData<List<Company>> getAllByName();
 
-    @Query("SELECT * FROM Company_table WHERE applied = 1")
+    @Query("SELECT * FROM Company_table WHERE applied = 1 ORDER BY companyName")
     LiveData<List<Company>> getAllApplied();
+
+    @Query("SELECT * FROM Company_table WHERE applied = 0 ORDER BY companyName")
+    LiveData<List<Company>> getAllNotApplied();
 
    @Update
     void changeValue(Company company);

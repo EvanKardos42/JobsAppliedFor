@@ -14,6 +14,10 @@
         android:id="@+id/menu_get_all_applied"
         android:title="@string/completed_applications"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/menu_get_all_not_applied"
+        android:title="@string/not_appled"
+        app:showAsAction="never"/>
 
    <!-- <item
         android:id="@+id/sory_by_priority"

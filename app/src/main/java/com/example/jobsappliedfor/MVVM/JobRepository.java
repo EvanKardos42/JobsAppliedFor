@@ -1,4 +1,4 @@
-package com.example.jobsappliedfor;
+package com.example.jobsappliedfor.MVVM;
 
 import android.app.Application;
 import android.arch.lifecycle.LiveData;
@@ -12,17 +12,28 @@ import java.util.List;
 
 public class JobRepository {
 
-    private LiveData<List<Company>> currentJobs;
     private CompanyDAO jbd;
 
     public JobRepository(Application app) {
         this.jbd = CompanyDatabases.getDatabase(app).getJobDao();
-        currentJobs = jbd.getAllByName();
     }
 
     public LiveData<List<Company>> getAll( ){
-        return currentJobs;
+        return jbd.getAll();
     }
+
+    public LiveData<List<Company>> getAllApplied( ){
+        return jbd.getAllApplied();
+    }
+
+    public LiveData<List<Company>> getAllNotApplied( ){
+        return jbd.getAllNotApplied();
+    }
+
+    public LiveData<List<Company>> getSortedByFirstLetter( ){
+        return jbd.getAllByName();
+    }
+
 
     public void insert(Company company){
         new InsertAsyncTask(jbd).execute(company);
@@ -40,7 +51,7 @@ public class JobRepository {
 
         private CompanyDAO companyDAO;
 
-        public InsertAsyncTask(CompanyDAO jobs) {
+         InsertAsyncTask(CompanyDAO jobs) {
             this.companyDAO = jobs;
         }
 
@@ -55,7 +66,7 @@ public class JobRepository {
 
         private CompanyDAO companyDAO;
 
-        public DeleteAsyncTask(CompanyDAO jobs) {
+         DeleteAsyncTask(CompanyDAO jobs) {
             this.companyDAO = jobs;
         }
 
@@ -70,7 +81,7 @@ public class JobRepository {
 
         private CompanyDAO companyDAO;
 
-        public UpdateAsyncTask(CompanyDAO jobs) {
+        UpdateAsyncTask(CompanyDAO jobs) {
             this.companyDAO = jobs;
         }
 

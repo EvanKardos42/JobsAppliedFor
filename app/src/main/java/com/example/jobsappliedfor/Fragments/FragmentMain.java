@@ -1,6 +1,5 @@
 package com.example.jobsappliedfor.Fragments;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -18,31 +17,22 @@ import android.widget.Toast;
 
 import com.example.jobsappliedfor.Adapters.CompanyListAdapter;
 import com.example.jobsappliedfor.Database.Company;
-import com.example.jobsappliedfor.JobsViewModel;
+import com.example.jobsappliedfor.MVVM.JobsViewModel;
 import com.example.jobsappliedfor.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.jobsappliedfor.Fragments.FragmentMain.Menu_Select.APPLIED;
 
 public class FragmentMain extends Fragment implements View.OnClickListener {
+
+
+
+    public enum Menu_Select  {DEFAULT,APPLIED,FIRST_LETTER,NOT_APPLIED}
+
     private final String mainTag ="EVANKARDOS_FRAGMENT_MAIN_TAG";
     private CompanyListAdapter jobsListAdapter;
     private JobsViewModel viewModel;
-    //ArrayList<Company> companies;
     EditText editText;
 
-    private static volatile FragmentMain INSTANCE;
-
-    public static FragmentMain getINSTANCE() {
-        if (INSTANCE == null) {
-
-            if (INSTANCE == null) {
-                INSTANCE = new FragmentMain();
-            }
-
-        }
-        return INSTANCE;
-    }
 
     @Nullable
     @Override
@@ -54,12 +44,7 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         viewModel = ViewModelProviders.of(this).get(JobsViewModel.class);
-        viewModel.getAllJobs().observe(this, new Observer<List<Company>>() {
-            @Override
-            public void onChanged(@Nullable List<Company> companies) {
-                jobsListAdapter.submitList(companies);
-            }
-        });
+        sortTheList(Menu_Select.DEFAULT);
         initViews(v);
         //intiated toast
         return v;
@@ -88,7 +73,9 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
                 ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
 
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
             }
 
@@ -98,7 +85,6 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
                 showToast("Deleted Company");
             }
         }).attachToRecyclerView(recyclerView);
-
     }
 
     @Override
@@ -106,14 +92,16 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
 
         String companyName = editText.getText().toString();
 
-        if(!companyName.isEmpty()) {
-            Company j = createJob(companyName);
-            viewModel.insert(j);
-            Log.d(mainTag, "created Company");
-            showToast("Created Company");
-            editText.setText("");
-        }
-        Log.d(mainTag, "Button Clicked");
+            if (!companyName.isEmpty()) {
+                companyName = companyName.substring(0, 1).toUpperCase() + companyName.substring(1);
+                Company j = createJob(companyName);
+                viewModel.insert(j);
+                Log.d(mainTag, "created Company");
+                showToast("Created Company");
+                editText.setText("");
+            }
+            Log.d(mainTag, "Button Clicked");
+
     }
 
     /*
@@ -121,14 +109,36 @@ public class FragmentMain extends Fragment implements View.OnClickListener {
     * and shows uses the toast to display the
     * string
     */
-    public void showToast(String s){
-         Toast.makeText(FragmentMain.this.getContext(), s, Toast.LENGTH_SHORT).show();
-    }
+    public void showToast(String s){ Toast.makeText(FragmentMain.this.getContext(),
+            s,
+            Toast.LENGTH_SHORT).show(); }
 
     /*
     creates a new job object with the given string
      */
     private Company createJob(String companyName){
         return new Company(companyName,false);
+    }
+
+    //when the user select a sort option from the menu
+    //screen in the activity, the fragment rearranges the order of the
+    //company objects by the select num
+    public void sortTheList(Menu_Select i){
+        switch (i) {
+            case APPLIED:
+                viewModel.getAllAppliedFor().observe(this,
+                        list -> jobsListAdapter.submitList(list));
+                break;
+            case FIRST_LETTER:
+                viewModel.sortByLetter().observe(this,
+                        list -> jobsListAdapter.submitList(list));
+                break;
+            case NOT_APPLIED:
+                viewModel.getAllNotAppliedFor().observe(this,
+                        list -> jobsListAdapter.submitList(list));
+                break;
+            default:
+                viewModel.getAll().observe(this, list -> jobsListAdapter.submitList(list));
+        }
     }
 }

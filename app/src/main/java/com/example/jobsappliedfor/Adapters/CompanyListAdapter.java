@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.example.jobsappliedfor.Database.Company;
-import com.example.jobsappliedfor.JobsViewModel;
+import com.example.jobsappliedfor.MVVM.JobsViewModel;
 import com.example.jobsappliedfor.R;
 
 public class CompanyListAdapter extends ListAdapter<Company, CompanyViewHolder> {
@@ -30,7 +30,7 @@ public class CompanyListAdapter extends ListAdapter<Company, CompanyViewHolder> 
         @Override
         public boolean areContentsTheSame(Company oldItem, Company newItem) {
             return oldItem.getCompanyName().equals(newItem.getCompanyName()) &&
-                    oldItem.getApplied() == newItem.getApplied();
+                    oldItem.getApplied().equals(newItem.getApplied());
         }
     };
 
@@ -47,18 +47,13 @@ public class CompanyListAdapter extends ListAdapter<Company, CompanyViewHolder> 
             final Company j = getItem(i);
             companyViewHolder.getTextView().setText(j.getCompanyName());
             companyViewHolder.getCheckBox().setChecked(j.getApplied());
-            companyViewHolder.setCheckBoxListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(v instanceof CheckBox){
-                       j.setApplied(((CheckBox) v).isChecked());
-                       viewModel.update(j);
-                    }
+            companyViewHolder.setCheckBoxListener(v -> {
+                if(v instanceof CheckBox){
+                   j.setApplied(((CheckBox) v).isChecked());
+                   viewModel.update(j);
                 }
             });
     }
-
-
 
 
     public Company getJobAt(int position){
